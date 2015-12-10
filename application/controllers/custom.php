@@ -155,7 +155,7 @@ class Custom extends MY_Controller{
 
         $res = $this->custom_model->insert_entry($entry);
         if($res != false) {
-            $this->show_custom_add("添加成功！", 'success');
+            $this->show_customs("添加成功！", 'success');
             return;
         } else {
             $this->show_custom_add("添加失败！", 'danger');

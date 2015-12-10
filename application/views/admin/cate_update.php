@@ -5,9 +5,7 @@
         <li>
           <a href="<?php echo base_url(); ?>">主页</a>
         </li>
-        <li>
-          <a href="<?php echo site_url('c=coupon&m=show_coupons'); ?>">所在目录</a>
-        </li>
+
         <li class="active">更新分类</li>
       </ul>
     </div>

@@ -138,10 +138,6 @@ class Category extends MY_Controller{
         }
         $cid = $this->input->get('cid', 0);
 
-        if (!$this->category_model->check_category_id($cid)){
-            $this->show_main('非法访问','danger');
-            return;
-        }
         // 表单验证，验证规则见 application/config/form_validation.php
         if ($this->form_validation->run('cate_add') == FALSE)
         {

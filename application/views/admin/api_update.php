@@ -5,9 +5,7 @@
         <li>
           <a href="<?php echo base_url(); ?>">主页</a>
         </li>
-        <li>
-          <a href="<?php echo site_url('c=coupon&m=show_coupons'); ?>">所在目录</a>
-        </li>
+
         <li class="active">更新接口</li>
       </ul>
     </div>
@@ -68,7 +66,15 @@
               <div class="form-group has-error" >
                 <div class="input-group">
                   <div class="input-group-addon" onclick="getParams()">参数获取地址前缀</div>
-                  <input type="text" class="form-control" name="prefix"  id = "prefix" value="http://test.api.popdr.gi4t.com">
+                    <input type="text" class="form-control" name="prefix"  id = "prefix" value="<?php
+                    if ($this->session->userdata('custom_id') == 0){
+                        echo "http://test.api.popdr.gi4t.com";
+                    }else{
+                        $this->load->model('custom_model');
+                        $row = $this->custom_model->get_custom_row($this->session->userdata('custom_id'));
+                        echo $row->url_name;
+                    }
+                    ?>">
                 </div>
               </div>
               <table class="table">
