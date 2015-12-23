@@ -111,9 +111,7 @@
             $('#parameter').append($html);
         }
         function del(obj){
-            // $(obj).parents('tr').remove();
-            var p_data = $("input").serialize();
-            console.log(p_data);
+             $(obj).parents('tr').remove();
         }
         function test(){
             var count = $("#param_table").find("tr").length;
@@ -145,39 +143,14 @@
             }
             $html +='   <div class="form-group"> \
                             <div class="col-sm-offset-2 col-sm-9"> \
-                                <button type="submit" class="btn btn-success" onclick="postman()">登录</button> \
+                                <button type="submit" class="btn btn-success" onclick="postman()">Submit</button> \
                             </div> \
                         </div> \
                     </form>';             
                           
             $('#inline2').html($html);
         }
-        function test_1(){
-            var dr_url = document.getElementById("url_name").value;
-            var prefix = document.getElementById("prefix").value;
-            var $a = '<form class="form-horizontal" role="form" id="test_form" method="post" onsubmit="return false"> \
-                            <input type="hidden" id="prefix" value="'+prefix+'"> \
-                            <input type="hidden" id="url_name" value="'+dr_url+'"> \
-                            <div class="form-group"> \
-                              <label class="col-sm-2 control-label">token</label> \
-                              <div class="col-sm-8"> \
-                                 <input type="text" class="form-control" id="firstname">  \
-                              </div> \
-                            </div> \
-                            <div class="form-group"> \
-                              <label class="col-sm-2 control-label">姓</label> \
-                              <div class="col-sm-8"> \
-                                 <input type="text" class="form-control" id="lastname">  \
-                              </div> \
-                            </div>';
-                 $a +='   <div class="form-group"> \
-                                <div class="col-sm-offset-2 col-sm-10"> \
-                                    <button type="submit" class="btn btn-default">登录</button> \
-                                </div> \
-                            </div> \
-                        </form>'; 
-            $('#inline2').html($a);                               
-        }
+
         function postman(){
             $('#test_form').submit(function(){
                 var str_data=$("#test_form input").map(function(){
@@ -272,11 +245,13 @@
                   <div class="input-group-addon" onclick="getParams()">参数获取地址前缀</div>
                   <input type="text" class="form-control" name="prefix"  id = "prefix" value="<?php
                     if ($this->session->userdata('custom_id') == 0){
-                        echo "http://test.api.popdr.gi4t.com";
+                        echo "";
                     }else{
                         $this->load->model('custom_model');
                         $row = $this->custom_model->get_custom_row($this->session->userdata('custom_id'));
-                        echo $row->url_name;
+                        if($row != null){
+                            echo $row->url_name;
+                        }
                     }
                     ?>">
                 </div>
@@ -300,7 +275,7 @@
             </div>
             <div class="form-group">
               <h5>测试结果</h5>
-              <p><a id="modal" href="#inline2" onclick="test()">点击这里</a>加载一个模式窗口</p>
+              <p><a id="modal" href="#inline2" onclick="test()">点击这里</a>测试接口返回结果</p>
               <textarea name="res" id="test_res" rows="3" class="form-control" placeholder="返回结果" ></textarea>
             </div>
             <div class="form-group">

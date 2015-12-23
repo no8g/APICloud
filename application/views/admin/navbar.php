@@ -52,7 +52,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <?php
-                    if (isset($customs)) {
+                    if (isset($customs) && ($customs != null)) {
                         foreach ($customs as $i) {
                             ?>
                             <li id="list_<?=$i->id?>" name = "<?=$i->custom_name?>" title= "<?=$i->url_name?>" onclick = "changePrefix(<?=$i->id?>)"><a><?=$i->custom_name?></a></li>

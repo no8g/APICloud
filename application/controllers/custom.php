@@ -203,7 +203,13 @@ class Custom extends MY_Controller{
             return;
         }
         $res = $this->custom_model->update_state_by_id($custom_id);
+
         if($res != false) {
+            if ($custom_id === $this->session->userdata('custom_id')){
+                $this->session->set_userdata(['custom_id' => 0]);
+                $this->load->model('user_model');
+                $result = $this->user_model->update_custom_id(0,$user_id);
+            }
             $this->show_customs("删除成功！", 'success');
             return;
         } else {
