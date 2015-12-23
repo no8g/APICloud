@@ -36,7 +36,8 @@ class Api extends MY_Controller{
             return;
         }
         //获取导航栏分级
-        // $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $data['nav_menu'] = $nav_menu;
         //获取该分类下是否有其他分类，sidebar用
         $child_menu = $this->category_model->get_categories_by_pid($cid);
         //获取该分类下的api基础信息，sidebar用
@@ -81,7 +82,8 @@ class Api extends MY_Controller{
                 $data['info_type'] = $info_type;
             }
             //获取导航栏分级
-            // $nav_menu = $this->category_model->get_parents_by_id($cid);
+            $nav_menu = $this->category_model->get_parents_by_id($cid);
+            $data['nav_menu'] = $nav_menu;
             //获取该分类下是否有其他分类，sidebar用
             $child_menu = $this->category_model->get_categories_by_pid($cid);
             //获取该分类下的api基础信息，sidebar用
@@ -120,7 +122,8 @@ class Api extends MY_Controller{
         }
         $this->load->model('category_model');
         //获取导航栏分级
-        // $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $data['nav_menu'] = $nav_menu;
         //获取该分类下是否有其他分类，sidebar用
         $child_menu = $this->category_model->get_categories_by_pid($cid);
         //获取该分类下的api基础信息，sidebar用
@@ -166,7 +169,8 @@ class Api extends MY_Controller{
         }
         else{
             //获取导航栏分级
-            // $nav_menu = $this->category_model->get_parents_by_id($cid);
+            $nav_menu = $this->category_model->get_parents_by_id($cid);
+            $data['nav_menu'] = $nav_menu;
             //获取该分类下是否有其他分类，sidebar用
             $child_menu = $this->category_model->get_categories_by_pid($cid);
             //获取该分类下的api基础信息，sidebar用

@@ -19,7 +19,7 @@
         });
     </script>
 
-  <div class="navbar navbar-default" role="navigation">
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -45,7 +45,7 @@
         }else {
             ?>
             <div class="btn-group" style="float: right; margin-top: 8px">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                <button type="button" id= "configButton" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                     <?php echo $this->session->userdata('name'); ?>
                     <span class="caret"></span>

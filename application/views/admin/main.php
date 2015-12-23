@@ -57,32 +57,30 @@
 
       <div class="row">
         <div class="col-sm-6 col-md-6">
-          <div class="panel panel-default">
+          <div class="panel panel-default" style="height:250px;">
             <a href="#widget2container" class="panel-heading" data-toggle="collapse">帮助</a>
             <div id="widget2container" class="panel-body collapse in">
+              <p>
+                欢迎使用接口管理工具 v1.1版
+              </p>
               <p>
                 如果您在使用中遇到了问题，或发现的BUG，请及时联系。
               </p>
               <p>
-                联系邮箱：
+                联系邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zhangrq5@126.com
               </p>
               <p>
-                联系电话：
-              </p>
-              <p>
-                <a class="btn btn-primary">更多信息 »</a>
+                <a class="btn btn-primary" href="https://github.com/zhangrq5/apiTool">更多信息 »</a>
               </p>
             </div>
           </div>
         </div>
         <div class="col-sm-6 col-md-6">
-          <div class="panel panel-default">
+          <div class="panel panel-default" style="height:250px;">
             <a href="#widget1container" class="panel-heading" data-toggle="collapse">系统介绍</a>
             <div id="widget1container" class="panel-body collapse in">
 
-              <p>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;欢迎使用接口管理工具 v1.1版
-              </p>
+
               <p>
                 什么是接口文档管理工具?
               </p>

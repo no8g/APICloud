@@ -116,15 +116,15 @@ class Category_Model extends CI_Model {
 		if($id == null){
 			return false;
 		}
-		$row = self::get_row($id);
-		$level = $row[0]['level'];
-		$array = [];
+		$row = self::get_row_v2($id);
+		$level = $row['level'];
+		$array = array();
 		array_push($array, $row);
-		$pid = $row[0]['parent_id'];
+		$pid = $row['parent_id'];
 		for ($i=1; $i<$level; $i++){
-			$row = $this->get_row($pid);
+			$row = $this->get_row_v2($pid);
 			array_push($array, $row);
-			$pid = $row[0]['parent_id'];
+			$pid = $row['parent_id'];
 		}
 		return $array;
 	}
@@ -158,6 +158,21 @@ class Category_Model extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+
+	function get_row_v2($id){
+		if ($id ==null){
+			return false;
+		}
+		$this->db->where(self::ID, $id);
+		$this->db->where(self::STATE, 1);
+		$this->db->from(self::TABLE_NAME);
+		$res = $this->db->get();
+		if($res->num_rows() >0) {
+			return $res->result_array()[0];
+		}else{
+			return false;
+		}		
 	}
 
 	/**

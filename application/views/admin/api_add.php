@@ -5,9 +5,15 @@
         <li>
           <a href="<?php echo base_url(); ?>">主页</a>
         </li>
+        <?php
+        for ($i = count($nav_menu)-1;$i>=0;$i--){
+        ?>
         <li>
-          <a href="<?php echo site_url('c=coupon&m=show_coupons'); ?>">所在目录</a>
+          <a href="index.php?c=api&m=show_api_es&cid=<?=$nav_menu[$i]['id']?>"><?=$nav_menu[$i]['name']?></a>
         </li>
+        <?php  
+        }
+        ?>
         <li class="active">新增接口</li>
       </ul>
     </div>
@@ -105,37 +111,74 @@
             $('#parameter').append($html);
         }
         function del(obj){
-            $(obj).parents('tr').remove();
+            // $(obj).parents('tr').remove();
+            var p_data = $("input").serialize();
+            console.log(p_data);
         }
-        /*function test(){
+        function test(){
             var count = $("#param_table").find("tr").length;
             var dr_url = document.getElementById("url_name").value;
             var prefix = document.getElementById("prefix").value;
-            var $html = '<form id="test_form" method="post"> \
-                    <div class="form-group"> \
-                        <input type="hidden" id="prefix" value="'+prefix+'"> \
-                        <input type="hidden" id="url_name" value="'+dr_url+'"> \
-                        <div class="input-group" id="input_form"> \
+            var $html = '<form class="form-horizontal" role="form" id="test_form" method="post" onsubmit="return false"> \
+                        <div class="form-group"> \
+                            <label class="col-sm-2 control-label">URL</label> \
+                            <div class="col-sm-9"> \
+                            <input type="text" class="form-control" id="test_api_url" required="required" value="'+prefix+dr_url+'">  \
+                            </div> \
+                        </div> \
                     ';
             for (var i=1;i<count;i++){
-                $html += '                    <div class="form-group"> \
-                    <div class="input-group" id="input_form">';
                 var p_name = $("#param_table").find("tr").eq(i).find("td").eq(0).find("input").eq(0).val();
                 var isNeed = $('select[name="p[type][]"]').eq(i-1).val();
                 var req = "";
                 if (isNeed == "Y"){
                     req = ' required="required" ';
                 }
-                $html += '<input type="text" id="'+p_name+'" placeholder ="'+p_name+ '"' +req+'><br>';
-                $html += '                          </div> \
-                </div> ';
+                $html += '<div class="form-group"> \
+                            <label class="col-sm-2 control-label">' + p_name+'</label> \
+                            <div class="col-sm-9"> \
+                            <input type="text" class="form-control" id="'+p_name+'" '+req+'>  \
+                            </div> \
+                        </div> \
+                        ';
+
             }
-                $html +='<button class="btn btn-success btn-xs" onclick="postman()">Submit</button> \
-                </form>';
+            $html +='   <div class="form-group"> \
+                            <div class="col-sm-offset-2 col-sm-9"> \
+                                <button type="submit" class="btn btn-success" onclick="postman()">登录</button> \
+                            </div> \
+                        </div> \
+                    </form>';             
                           
             $('#inline2').html($html);
-        }*/
-        /*function postman(){
+        }
+        function test_1(){
+            var dr_url = document.getElementById("url_name").value;
+            var prefix = document.getElementById("prefix").value;
+            var $a = '<form class="form-horizontal" role="form" id="test_form" method="post" onsubmit="return false"> \
+                            <input type="hidden" id="prefix" value="'+prefix+'"> \
+                            <input type="hidden" id="url_name" value="'+dr_url+'"> \
+                            <div class="form-group"> \
+                              <label class="col-sm-2 control-label">token</label> \
+                              <div class="col-sm-8"> \
+                                 <input type="text" class="form-control" id="firstname">  \
+                              </div> \
+                            </div> \
+                            <div class="form-group"> \
+                              <label class="col-sm-2 control-label">姓</label> \
+                              <div class="col-sm-8"> \
+                                 <input type="text" class="form-control" id="lastname">  \
+                              </div> \
+                            </div>';
+                 $a +='   <div class="form-group"> \
+                                <div class="col-sm-offset-2 col-sm-10"> \
+                                    <button type="submit" class="btn btn-default">登录</button> \
+                                </div> \
+                            </div> \
+                        </form>'; 
+            $('#inline2').html($a);                               
+        }
+        function postman(){
             $('#test_form').submit(function(){
                 var str_data=$("#test_form input").map(function(){
                     return ($(this).attr("id")+'='+$(this).val());
@@ -144,28 +187,22 @@
                     url: "index.php?c=test&m=get_test_result",
                     "contentType": "application/x-www-form-urlencoded; charset=utf-8",
                     data:str_data,
-
                     type: 'POST',
                     dataType: 'text',
                     success: function(d){
                         if (d != null){
-                            $('#res').value = d;
-//                            alert(str_data);
-                            alert(d);
+                            $('#test_res').html(d);
+                            parent.$.fancybox.close();                            
                         }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        alert(XMLHttpRequest.status);
-                        alert(XMLHttpRequest.readyState);
-                        alert(textStatus);
-                    }
+                    },                    
                 });
             });
-        }*/
+        }
     </script>
     <script type="text/javascript">
     $(function(){
         $("#modal").fancybox({
+            'minWidth': 500,
             'modal':false,           
             'overlayShow':true,
             'hideOnOverlayClick':false,
@@ -173,7 +210,7 @@
             'enableEscapeButton':false,
             'showCloseButton':false,
             'centerOnScroll':true,
-            'autoScale':true
+            // 'autoScale':true
         });
     });
     </script>
@@ -263,8 +300,8 @@
             </div>
             <div class="form-group">
               <h5>测试结果</h5>
-<!--              <p><a id="modal" href="#inline2" onclick="test()">点击这里</a>加载一个模式窗口</p>-->
-              <textarea name="res" id="res" rows="3" class="form-control" placeholder="返回结果"></textarea>
+              <p><a id="modal" href="#inline2" onclick="test()">点击这里</a>加载一个模式窗口</p>
+              <textarea name="res" id="test_res" rows="3" class="form-control" placeholder="返回结果" ></textarea>
             </div>
             <div class="form-group">
               <h5>备注</h5>

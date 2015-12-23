@@ -9,6 +9,12 @@
 
     </div>
     <div class="main-content">
+      <?php if(isset($info)) {  ?>
+        <div class="alert alert-<?php echo $info_type; ?>">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <?php echo $info; ?>
+        </div>
+      <?php } ?>
       <div class="panel panel-default">
         <a href="#page-stats" class="panel-heading" data-toggle="collapse">个人设置</a>
         <div id="page-stats" class="panel-collapse panel-body collapse in">

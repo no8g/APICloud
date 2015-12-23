@@ -152,7 +152,6 @@ class Custom extends MY_Controller{
         $entry['custom_name'] = $this->input->post('custom_name');
         $entry['url_name'] = $this->input->post('url_name');
 
-
         $res = $this->custom_model->insert_entry($entry);
         if($res != false) {
             $this->show_customs("添加成功！", 'success');
@@ -189,6 +188,29 @@ class Custom extends MY_Controller{
             $this->show_custom_update($custom_id, "修改失败！", 'danger');
             return;
         }
+    }
+    function custom_delete(){
+        $custom_id = $this->input->get('custom_id');
+        $user_id = $this->session->userdata('id');
+        if (!$this->session_valid()){
+            $info = "您没有权限访问该页面，请登录";
+            $info_type = 'danger';
+            $this->show_login($info, $info_type);
+            return;
+        }
+        if(!$this->custom_model->check_custom_id($custom_id, $user_id)){
+            $this->show_main('非法访问','danger');
+            return;
+        }
+        $res = $this->custom_model->update_state_by_id($custom_id);
+        if($res != false) {
+            $this->show_customs("删除成功！", 'success');
+            return;
+        } else {
+            $this->show_custom_add("删除失败！", 'danger');
+            return;
+        }        
+
     }
     function set_common_custom(){
         if (!$this->session_valid()){

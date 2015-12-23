@@ -28,7 +28,8 @@ class Category extends MY_Controller{
         }
         $this->load->model('api_model');
         //获取导航栏分级
-        // $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $data['nav_menu'] = $nav_menu;
         //获取该分类下是否有其他分类，sidebar用
         $child_menu = $this->category_model->get_categories_by_pid($cid);
         //获取该分类下的api基础信息，sidebar用
@@ -67,7 +68,8 @@ class Category extends MY_Controller{
         }
 
         //获取导航栏分级
-        // $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $data['nav_menu'] = $nav_menu;
         //获取该分类下是否有其他分类，sidebar用
         $child_menu = $this->category_model->get_categories_by_pid($cid);
         //获取该分类下的api基础信息，sidebar用
@@ -105,7 +107,8 @@ class Category extends MY_Controller{
         }
         $this->load->model('api_model');
         //获取导航栏分级
-        // $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $nav_menu = $this->category_model->get_parents_by_id($cid);
+        $data['nav_menu'] = $nav_menu;
         //获取该分类下是否有其他分类，sidebar用
         $child_menu = $this->category_model->get_categories_by_pid($cid);
         //获取该分类下的api基础信息，sidebar用
@@ -233,5 +236,11 @@ class Category extends MY_Controller{
                 return;
             }
         }
+    }
+    function test(){
+        $arr = $this->category_model->get_parents_by_id(24);
+        $a = $this->category_model->get_row_v2(24);
+        // var_dump($a);
+        var_dump($arr);
     }
 }

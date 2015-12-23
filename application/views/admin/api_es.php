@@ -6,9 +6,15 @@
             <li>
                 <a href="<?php echo base_url(); ?>">主页</a>
             </li>
-<!--            <li>-->
-<!--                <a href="--><?php //echo site_url('c=coupon&m=show_coupons'); ?><!--">所在目录</a>-->
-<!--            </li>-->
+        <?php
+        for ($i = count($nav_menu)-1;$i>=0;$i--){
+        ?>
+        <li>
+          <a href="index.php?c=api&m=show_api_es&cid=<?=$nav_menu[$i]['id']?>"><?=$nav_menu[$i]['name']?></a>
+        </li>
+        <?php  
+        }
+        ?>
             <li class="active">接口列表</li>
         </ul>
     </div>

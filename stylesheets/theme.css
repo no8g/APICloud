@@ -104,7 +104,7 @@ label {
   color: #eee;
   background-color: #eee;
 }
-/*.navbar {
+.navbar {
   -webkit-box-shadow: 0px 0px 3px #cccccc;
   -moz-box-shadow: 0px 0px 3px #cccccc;
   box-shadow: 0px 0px 3px #cccccc;
@@ -118,7 +118,11 @@ label {
   background-clip: padding-box;
   border: 0px;
   border-bottom: none;
-}*/
+}
+.navbar-fixed-top{
+  top:0;
+  border-width:0 0 1px
+}
 .navbar .nav > li > a {
   color: #fff;
   text-shadow: none;
@@ -138,7 +142,7 @@ label {
   color: #fff;
 }
 .navbar {
-  position: relative;
+  /*position: relative;*/
   z-index: 20;
   margin: 0px;
   -webkit-box-shadow: 0px 0px 3px #cccccc;

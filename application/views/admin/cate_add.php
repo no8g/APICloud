@@ -5,7 +5,15 @@
         <li>
           <a href="<?php echo base_url(); ?>">主页</a>
         </li>
-
+        <?php
+        for ($i = count($nav_menu)-1;$i>=0;$i--){
+        ?>
+        <li>
+          <a href="index.php?c=api&m=show_api_es&cid=<?=$nav_menu[$i]['id']?>"><?=$nav_menu[$i]['name']?></a>
+        </li>
+        <?php  
+        }
+        ?>
         <li class="active">新增分类</li>
       </ul>
     </div>

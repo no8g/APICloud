@@ -35,6 +35,7 @@ class Test extends MY_Controller{
         }
         if ($uri == null){
             echo json_encode(['']);
+            die();
         }
         $match_rules = [
             'array' => '数组类型',
@@ -85,36 +86,36 @@ class Test extends MY_Controller{
         echo json_encode($param_array, true);
     }
     function get_test_result(){
-        $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+        $post_data = $this->input->post();
 
-        $post_data = array();
         $prefix = $this->input->post("prefix");
         $url_name = $this->input->post("url_name");
+        if (!($prefix && $url_name)){
+            echo '';
+            die();
+        }
         $url = $prefix."/".$url_name;
 
-        die();
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         $result = curl_exec($ch);
+        // print_r($result);
     }
     function get_post_deliver($str){
+        $re = array();
         $param_arr = explode('&', $str);
         foreach($param_arr as $i){
-
+            $temp = explode('=', $i);
+            array_push($re, $temp);
         }
+        return $re;
     }
     function test_time(){
-        echo date('Y-m-d H:m:s', strtotime("now"));
-        echo "<br>";
-        echo date('Y-m-d H:m:s', time());
-        echo "<br>";
-        echo "<br>";
-        $now=date("Y-m-d H:i:s");
-        echo $now;
+
     }
 
 
