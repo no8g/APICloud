@@ -33,20 +33,23 @@
             <div style="background:#f5f5f5;padding:20px;position:relative">
                 <div class="textshadow" style="position: absolute;right:0;top:4px;right:8px;">
                     最后修改者: <?php echo $i['user_name']?> &nbsp;<?php echo $i['update_time']?>&nbsp;
-                    <button class="btn btn-danger btn-xs " onclick="editApi('<?php echo site_url('c=api&m=api_delete').'&cid='.$cid.'&aid='.$i['id']; ?>')">delete</button>&nbsp;
-                    <button class="btn btn-info btn-xs " onclick="editApi('<?php echo site_url('c=api&m=show_api_update').'&cid='.$cid.'&aid='.$i['id']; ?>')">edit</button>
+                    <a href="<?php echo site_url('c=api&m=api_delete').'&cid='.$cid.'&aid='.$i['id']; ?>" onclick ="return(confirmtest());"><button class="btn btn-danger btn-xs ">delete</button></a>
+                    <a href="<?php echo site_url('c=api&m=show_api_update').'&cid='.$cid.'&aid='.$i['id']; ?>"><button class="btn btn-info btn-xs ">edit</button></a>
                 </div>
                 <h4 class="textshadow"><?php echo $i['name'];?></h4>
                 <p>
                     <b>编号&nbsp;&nbsp;:&nbsp;&nbsp;<span style="color:red"><?php echo $i['number'];?></span></b>
                 </p>
                 <div>
-                    <kbd style="color:red"><?php echo $form_type=($i['type'] == 1)?'POST':'GET';?></kbd> - <kbd><?php echo $i['url_name'];?></kbd>
+                    <kbd style="color:red"><?php echo $form_type=($i['type'] == 1 || $i['type'] == 'POST')?'POST':'GET';?></kbd> - <kbd><?php echo $i['url_name'];?></kbd>
                 </div>
             </div>
-            <div class="info">
-                <?php echo $i['description'];?>
-            </div>
+            <?php if($i['description'] !== ''){?>
+                <div class="info">
+                    <?php echo $i['description'];?>
+                </div>
+            <?php }?>
+
             <div style="background:#ffffff;padding:20px;">
                 <h5 class="textshadow">请求参数</h5>
                 <table class="table">
@@ -80,10 +83,12 @@
                 <h5 class="textshadow">返回值</h5>
                 <pre><?php echo $i['res']?></pre>
             </div>
-            <div style="background:#ffffff;padding:20px;">
-                <h5 class="textshadow">备注</h5>
-                <pre style="background:honeydew"><?php echo $i['remark']?></pre>
-            </div>
+            <?php if($i['remark'] !== ''){?>
+                <div style="background:#ffffff;padding:20px;">
+                    <h5 class="textshadow">备注</h5>
+                    <pre style="background:honeydew"><?php echo $i['remark']?></pre>
+                </div>
+            <?php }?>
         </div>
         <?php
                 }
@@ -91,8 +96,12 @@
         ?>
     </div>
 </div>
-<script>
-    function editApi(url){
-        window.location.href=url;
+
+<script language="javascript">
+    function confirmtest() {
+        if(confirm('确定删除吗？')) {
+            return(true);
+        }
+        else return(false);
     }
 </script>

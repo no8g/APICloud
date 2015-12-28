@@ -101,11 +101,8 @@ class Api extends MY_Controller{
             $data['api_es'] = $this->api_model->get_api_es($cid);
 
             $this->load->view(self::API_ES, $data);
-    }
-
-
-
-}
+    	}
+	}
     function show_api_sort($cid =0, $info='', $info_type = ''){
         if (!$this->session_valid()){
             $info = "您没有权限访问该页面,请登录";

@@ -117,7 +117,14 @@
             var count = $("#param_table").find("tr").length;
             var dr_url = document.getElementById("url_name").value;
             var prefix = document.getElementById("prefix").value;
+            var type = document.getElementById("req_type").value;
+            if (type == 1){
+                type = "POST";
+            }else{
+                type = "GET";
+            }
             var $html = '<form class="form-horizontal" role="form" id="test_form" method="post" onsubmit="return false"> \
+                            <input type="hidden" id="request_type" value="'+type+'" >\
                         <div class="form-group"> \
                             <label class="col-sm-2 control-label">URL</label> \
                             <div class="col-sm-9"> \
@@ -205,7 +212,7 @@
                 <div class="input-group-addon">
                   接口编号
                 </div>
-                <input type="text" class="form-control" name="number" id="num" placeholder="接口编号" required="required"  onblur="getNum()">
+                <input type="text" class="form-control" name="number" id="num" placeholder="接口编号" onblur="getNum()">
               </div>
             </div>
             <div class="form-group has-error">
@@ -233,7 +240,7 @@
               <textarea name="description" class="form-control" placeholder="描述"></textarea>
             </div>
             <div class="form-group">
-              <select class="form-control" name="type" required = "required">
+              <select class="form-control" name="type" id="req_type" required = "required">
                 <option value="1">POST</option>
                 <option value="2">GET</option>
               </select>

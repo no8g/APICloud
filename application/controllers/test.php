@@ -87,23 +87,17 @@ class Test extends MY_Controller{
     }
     function get_test_result(){
         $post_data = $this->input->post();
-
-        $prefix = $this->input->post("prefix");
-        $url_name = $this->input->post("url_name");
-        if (!($prefix && $url_name)){
-            echo '';
-            die();
-        }
-        $url = $prefix."/".$url_name;
+        $url = $this->input->post('test_api_url');
+        $request_type = $this->input->post('request_type');
 
         $ch = curl_init();
-
-        // curl_setopt($ch, CURLOPT_POST, 1);
-        // curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_URL,$url);
+        if ($request_type === 'POST'){
+            curl_setopt($ch, CURLOPT_POST, 1);
+        }
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         $result = curl_exec($ch);
-        // print_r($result);
+        curl_close($ch);
     }
     function get_post_deliver($str){
         $re = array();

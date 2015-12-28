@@ -65,8 +65,12 @@
             </div>
             <div class="form-group">
               <select class="form-control" name="type" required = "required">
-                <option value="1">POST</option>
-                <option value="2">GET</option>
+                  <?php
+                  $selected[0] = ($api->type == 'POST' || ($api->type == 1)) ? 'selected' : '';
+                  $selected[1] = ($api->type == 'GET' || ($api->type == 2)) ? 'selected' : '';
+                  ?>
+                <option value="1" <?=$selected[0]?>>POST</option>
+                <option value="2" <?=$selected[1]?>>GET</option>
               </select>
             </div>
             <div class="form-group">
@@ -114,8 +118,8 @@
                             $selected[1] = ($parameter['type'][$j] == 'N') ? 'selected' : '';
                             ?>
                             <select class="form-control" name="p[type][]">
-                                <option value="Y" <?php echo $selected[0]?>>Y</option>
-                                <option value="N" <?php echo $selected[1]?>>N</option>
+                                <option value="Y" <?php echo $selected[0];?>>Y</option>
+                                <option value="N" <?php echo $selected[1];?>>N</option>
                             </select>
                         </td>
                         <td><input type="text" class="form-control" name="p[default][]" placeholder="缺省值" value="<?php echo $parameter['default'][$j]?>"></td>
