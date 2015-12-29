@@ -29,8 +29,8 @@
       </button>
       <a href="index.php">
         <span class="navbar-brand">
-<!--            <span class="glyphicon glyphicon-random" aria-hidden="true" style="width:30px;">-->
-<!--            </span>-->
+            <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="width:30px;">
+            </span>
             API-Cloud
         </span>
       </a>

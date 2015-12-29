@@ -224,6 +224,9 @@ class Category_Model extends CI_Model {
  		return true;
  	}
 	function check_category_id($id){
+		if ($id == 0){
+			 return true;
+		}
 		$this->db->where(self::ID, $id);
 		$this->db->where(self::STATE, 1);
 		$this->db->from(self::TABLE_NAME);

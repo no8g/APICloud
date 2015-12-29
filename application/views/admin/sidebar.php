@@ -1,8 +1,8 @@
 <div class="sidebar-nav" style="position:fixed;height:100%;">
   <div id="sidebar" style="position:relative;background:#f5f5f5;padding:10px;height:100%;border-right:#ddd 1px solid;overflow-y:auto;">
-    <div class="form-group">
+<!--    <div class="form-group">
       <input type="text" class="form-control" id="search_api" placeholder="search here" onkeyup="">
-    </div>
+    </div>-->
     <div class = "form-group">
       <form action="<?php echo site_url('c=category&m=show_cate_add');?>" method="get">
         <div style="float:right;margin-right:20px;">
@@ -51,12 +51,15 @@
               <a href="index.php?c=api&m=show_api_es&cid=<?php echo $i->id ?>"><?php echo $i->name ?></a>
               <br>
               &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $i->description ?><input type="hidden" name="aid" value="2"> <br>
-
               <div style="float:right;margin-right:16px;">
                 &nbsp;
-                <button class="btn btn-danger btn-xs" onclick="redirect('index.php?c=category&m=cate_delete&cid=<?=$cid?>&id=<?=$i->id?>')">delete</button>
+                <a href="index.php?c=category&m=cate_delete&cid=<?=$cid?>&id=<?=$i->id?>">
+                  <button class="btn btn-danger btn-xs" onclick="return(confirmtest());">delete</button>
+                </a>
                 &nbsp;
-                <button class="btn btn-info btn-xs" onclick="redirect('index.php?c=category&m=show_cate_update&cid=<?=$cid?>&id=<?=$i->id?>')">edit</button>
+                <a href="index.php?c=category&m=show_cate_update&cid=<?=$cid?>&id=<?=$i->id?>">
+                  <button class="btn btn-info btn-xs">edit</button>
+                </a>
               </div>
               <br>
               <hr>
@@ -100,7 +103,10 @@
 
 
 <script type="text/javascript">
-   function redirect(url){
-     window.location.href=url;
-   }
+  function confirmtest() {
+    if(confirm('确定删除吗？')) {
+      return(true);
+    }
+    else return(false);
+  }
 </script>

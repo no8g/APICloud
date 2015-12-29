@@ -48,39 +48,6 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-// $db['default']['hostname'] = '';
-// $db['default']['username'] = '';
-// $db['default']['password'] = '';
-// $db['default']['database'] = '';
-
-/**
- * 百度云数据库配置
- */
-//$db['default']['hostname'] = 'sqld.duapp.com';
-//$db['default']['port'] = 4050;
-//$db['default']['username'] = '4ZVSM9ock3sIaEijGutrKmGi';
-//$db['default']['password'] = 'DHXvDlCookwu8jEukSGG8ZyWcDOR3NTV';
-//$db['default']['database'] = 'FBdBpnKxWqBHaaDvrZxX';
-
-/**
- * 阿里云数据库配置 测试数据库
- */
-//$db['default']['hostname'] = 'qinlindb.mysql.rds.aliyuncs.com'; // 外网
-// $db['default']['hostname'] = 'qinlindblan.mysql.rds.aliyuncs.com'; // 内网
-// $db['default']['port'] = 3306;
-// $db['default']['username'] = 'qinlin';
-// $db['default']['password'] = 'qinlin';
-// $db['default']['database'] = 'qinlin';
-
-/**
- * 阿里云数据库配置 正式数据库
- */
-// $db['default']['hostname'] = 'rdsqpnyp18im8vf39ms8l.mysql.rds.aliyuncs.com'; // 内网
-// $db['default']['port'] = 3306;
-// $db['default']['username'] = 'qinlin';
-// $db['default']['password'] = 'free2015';
-// $db['default']['database'] = 'door';
-
 /**
  * 本地数据库配置
  */

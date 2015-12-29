@@ -17,9 +17,18 @@
         <li class="active">新增接口</li>
       </ul>
     </div>
-        <link rel="stylesheet" href="lib/jquery.fancybox.css">
+    <link rel="stylesheet" href="lib/jquery.fancybox.css">
     <script src="lib/jquery.fancybox.js"></script>
+    <link rel="stylesheet" href="lib/magicsuggest-min.css">
+    <script src="lib/magicsuggest-min.js"></script>
     <script>
+        function getSel(id){
+            var element = 'select_rule_'+id;
+            var b = document.getElementById(element).value;
+            var $tr = '#tr_'+id;
+            $input = $($tr).find('td').eq(4).find('input');
+            $input[0].value = b;
+        }
         function getParams(){
             var dr_url = document.getElementById("url_name").value;
             var prefix = document.getElementById("prefix").value;
@@ -89,7 +98,8 @@
             });
         }
         function add(){
-            var $html ='<tr>' +
+            var a = $("#parameter").find("tr").length;
+            var $html ='<tr id=tr_'+a+'>' +
                 '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" id="p[name][]" placeholder="参数名" required="required"></td>'+
                 '<td>' +
                 '<select class="form-control" name="p[type][]">' +
@@ -102,7 +112,18 @@
                 '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
-                '<textarea name="p[rules][]" rows="1" class="form-control" placeholder="检验规则"></textarea>' +
+                '<span style="position:absolute;border:1pt solid #c1c1c1;overflow:hidden;width:440px;height:34px;clip:rect(-1px 440px 440px 420px);"> '+
+//                '<select class="form-control" name="select" id="select_rule" style="overflow:hidden;" onChange="javascript:document.getElementById('+"'p[rules][]'"+').value=document.getElementById('+"'select_rules'"+').options[document.getElementById('+"'select_rules'"+').selectedIndex].value;">'+
+                '<select class="form-control" name="select" id="select_rule_'+a+'" style="overflow:hidden;" onChange="getSel('+a+')">'+
+                '<option value="" >---请选择---</option>'+
+                '<option value="string">string</option> ' +
+                '<option value="int">int</option>' +
+                '<option value="double">double</option>' +
+                '</select> '+
+                '</span> '+
+                '<span style="position:absolute;border-top:1pt solid #c1c1c1;border-left:1pt solid #c1c1c1;border-bottom:1pt solid #c1c1c1;width:420px;height:34px;">'+
+                '<input class="form-control" type="text" name="p[rules][]" id="p[rules][]" value="可选择也可输入的下拉框" style="width:415px;height:30px;border:0pt;">'+
+                '</span> '+
                 '</td>' +
                 '<td>' +
                 '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
@@ -157,7 +178,6 @@
                           
             $('#inline2').html($html);
         }
-
         function postman(){
             $('#test_form').submit(function(){
                 var str_data=$("#test_form input").map(function(){

@@ -36,7 +36,7 @@
                 <div class="input-group-addon">
                   接口编号
                 </div>
-                <input type="text" class="form-control" name="number" id="num" value="<?php echo $api->number?>" required="required"  onblur="getNum()">
+                <input type="text" class="form-control" name="number" id="num" value="<?php echo $api->number?>" onblur="getNum()">
               </div>
             </div>
             <div class="form-group has-error">
@@ -80,7 +80,7 @@
                   <div class="input-group-addon" onclick="getParams()">参数获取地址前缀</div>
                     <input type="text" class="form-control" name="prefix"  id = "prefix" value="<?php
                     if ($this->session->userdata('custom_id') == 0){
-                        echo "http://test.api.popdr.gi4t.com";
+                        echo "";
                     }else{
                         $this->load->model('custom_model');
                         $row = $this->custom_model->get_custom_row($this->session->userdata('custom_id'));
@@ -108,7 +108,7 @@
                 $count = count($parameter['name']);
                 ?>
                 <?php for($j=0;$j<$count;$j++){ ?>
-                    <tr>
+                    <tr id="tr_<?=$j?>">
                         <td class="form-group has-error">
                             <input type="text" class="form-control" name="p[name][]" placeholder="参数名" value="<?php echo $parameter['name'][$j]?>" required="required">
                         </td>
@@ -124,7 +124,19 @@
                         </td>
                         <td><input type="text" class="form-control" name="p[default][]" placeholder="缺省值" value="<?php echo $parameter['default'][$j]?>"></td>
                         <td><textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"><?php echo $parameter['des'][$j]?></textarea></td>
-                        <td><textarea name="p[rules][]" rows="1" class="form-control" placeholder="校验规则"><?php echo (isset($parameter['rules'][$j]))?$parameter['rules'][$j]:'';?></textarea></td>
+                        <td>
+                            <span style="position:absolute;border:1pt solid #c1c1c1;overflow:hidden;width:440px;height:34px;clip:rect(-1px 440px 440px 420px);">
+                            <select class="form-control" name="select" id="select_rule_<?=$j?>" style="overflow:hidden;" onChange="getSel(<?=$j?>)">
+                                <option value="" >---请选择---</option>
+                                <option value="string">string</option>
+                                <option value="int">int</option>
+                                <option value="double">double</option>
+                            </select>
+                            </span>
+                            <span style="position:absolute;border-top:1pt solid #c1c1c1;border-left:1pt solid #c1c1c1;border-bottom:1pt solid #c1c1c1;width:420px;height:34px;">
+                            <input class="form-control" type="text" name="p[rules][]" id="p[rules][]" value="<?php echo (isset($parameter['rules'][$j]))?$parameter['rules'][$j]:'';?>" style="width:415px;height:30px;border:0pt;">
+                            </span>
+                        </td>
                         <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
                     </tr>
                 <?php } ?>
@@ -235,7 +247,11 @@
                 '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
-                '<textarea name="p[rules][]" rows="1" class="form-control" placeholder="检验规则"></textarea>' +
+                '<select class="form-control" name="p[rules][]">' +
+                '<option value="string">string</option> ' +
+                '<option value="int">int</option>' +
+                '<option value="double">double</option>' +
+                '</select >' +
                 '</td>' +
                 '<td>' +
                 '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
@@ -245,6 +261,13 @@
         }
         function del(obj){
             $(obj).parents('tr').remove();
+        }
+        function getSel(id){
+            var element = 'select_rule_'+id;
+            var b = document.getElementById(element).value;
+            var $tr = '#tr_'+id;
+            $input = $($tr).find('td').eq(4).find('input');
+            $input[0].value = b;
         }
     </script>
 

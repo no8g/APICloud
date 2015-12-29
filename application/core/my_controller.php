@@ -32,7 +32,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	function session_valid() {
-		if (! $this->session->userdata('logged_in')) { 
+		if (! $this->session->userdata('id')) {
 			return false;
 		} else 
 			return true;

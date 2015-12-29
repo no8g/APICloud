@@ -1,6 +1,6 @@
 <div class="dialog">
     <div class="panel panel-default">
-        <p class="panel-heading no-collapse">登录</p>
+        <p class="panel-heading no-collapse" >登录</p>
         <div class="panel-body">
             <form action="<?php echo site_url('c=user_login&m=login')?>" method="post">
                 <div class="form-group">

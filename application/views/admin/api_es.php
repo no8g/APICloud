@@ -29,7 +29,7 @@
             if($api_es != null){
                 foreach($api_es as $i){
         ?>
-        <div class="info_api" style="border:1px solid #ddd;margin-bottom:20px;" id="info_api_<?php echo $i['number'];?>">
+        <div class="info_api" style="border:1px solid #ddd;margin-bottom:20px;padding-top: 50px;" id="info_api_<?php echo $i['number'];?>">
             <div style="background:#f5f5f5;padding:20px;position:relative">
                 <div class="textshadow" style="position: absolute;right:0;top:4px;right:8px;">
                     最后修改者: <?php echo $i['user_name']?> &nbsp;<?php echo $i['update_time']?>&nbsp;

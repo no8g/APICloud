@@ -26,6 +26,10 @@ class Category extends MY_Controller{
         if($cid == null){
             $cid = $this->input->get('cid', 0);
         }
+        if (!$this->category_model->check_category_id($cid)){
+            $this->show_main('非法访问','danger');
+            return;
+        }
         $this->load->model('api_model');
         //获取导航栏分级
         $nav_menu = $this->category_model->get_parents_by_id($cid);
@@ -66,7 +70,10 @@ class Category extends MY_Controller{
         if($id == null){
             $id = $this->input->get('id', 0);
         }
-
+        if (!$this->category_model->check_category_id($cid) || $id == 0){
+            $this->show_main('非法访问','danger');
+            return;
+        }
         //获取导航栏分级
         $nav_menu = $this->category_model->get_parents_by_id($cid);
         $data['nav_menu'] = $nav_menu;
@@ -105,6 +112,10 @@ class Category extends MY_Controller{
         if($cid == null){
             $cid = $this->input->get('cid', 0);
         }
+        if (!$this->category_model->check_category_id($cid)){
+            $this->show_main('非法访问','danger');
+            return;
+        }
         $this->load->model('api_model');
         //获取导航栏分级
         $nav_menu = $this->category_model->get_parents_by_id($cid);
@@ -141,7 +152,10 @@ class Category extends MY_Controller{
         }
         $cid = $this->input->get('cid', 0);
 
-        // 表单验证，验证规则见 application/config/form_validation.php
+        if (!$this->category_model->check_category_id($cid)){
+            $this->show_main('非法访问','danger');
+            return;
+        }
         if ($this->form_validation->run('cate_add') == FALSE)
         {
             $this->show_cate_add($cid, validation_errors(), 'danger');
@@ -173,7 +187,10 @@ class Category extends MY_Controller{
         $cid = $this->input->get('cid', 0);
         $id = $this->input->get('id', 0);
 
-        // 表单验证，验证规则见 application/config/form_validation.php
+        if (!$this->category_model->check_category_id($cid) || $id == 0){
+            $this->show_main('非法访问','danger');
+            return;
+        }
 
         $entry = array();
         $entry['name'] = $this->input->post('name');
@@ -198,7 +215,10 @@ class Category extends MY_Controller{
             return;
         }
         $cid = $this->input->get('cid', 0);
-
+        if (!$this->category_model->check_category_id($cid)){
+            $this->show_main('非法访问','danger');
+            return;
+        }
         $categories = $this->input->post('cate');
         $update_id = $this->category_model->update_ranks($categories);
         if ($update_id != true){
@@ -236,11 +256,5 @@ class Category extends MY_Controller{
                 return;
             }
         }
-    }
-    function test(){
-        $arr = $this->category_model->get_parents_by_id(24);
-        $a = $this->category_model->get_row_v2(24);
-        // var_dump($a);
-        var_dump($arr);
     }
 }

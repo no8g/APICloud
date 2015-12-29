@@ -15,7 +15,7 @@ class User_login extends MY_Controller {
 			$name = $this->input->post('name');
 
 			$pwd  = $this->input->post('password');
-			$password = md5($pwd);
+			$password = $this->encrypt($pwd);
 			$this->load->model('user_model');
 
 			$res = $this->user_model->check_login($name, $password);
@@ -28,12 +28,9 @@ class User_login extends MY_Controller {
 				}else{
 					$custom_id = $custom_row->id;
 				}
-	 			$data = array(
-					'name'=>$res->name,
-					'logged_in'=>TRUE,
-					'id'=>$res->id,
-					'custom_id'=>$custom_id,
-					);
+				$user = (array)$res;
+	 			$data = array_merge($user, ['custom_id' => $custom_id]);
+
 	 			$this->session->set_userdata($data);
 				$this->show_main();
 			}
@@ -42,6 +39,10 @@ class User_login extends MY_Controller {
 				$this->show_login('用户名或密码错误！', 'danger');
 			}
 		}
+	}
+
+	private function encrypt($password){
+		return md5($password);
 	}
 
 

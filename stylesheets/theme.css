@@ -92,6 +92,7 @@ label {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
+
 /*Navbar*/
 .navbar-collapse {
   position: relative;
@@ -188,6 +189,7 @@ label {
   min-height: 800px;
   background: #fff;
   margin-left: 350px;
+  margin-top: 50px;
   border-left: 1px solid #cccccc;
   padding: 15px 15px 0px 15px;
 }
@@ -393,6 +395,7 @@ a.panel-heading:hover,
   float: left;
   border-top: none;
   border-left: none;
+  /*padding-top: 50px;*/
   margin: 0em;
 }
 .sidebar-nav ul {
@@ -530,9 +533,13 @@ a.panel-heading:hover,
   box-shadow: none;
   border: 1px solid #ddd;
 }
+.vertical-center{
+  vertical-align: middle;
+}
+
 .dialog {
   margin: 0px auto;
-  margin-top: 5em;
+  margin-top: 50px;
   float: none;
   max-width: 400px;
 }
@@ -850,7 +857,15 @@ table.table.list tr:first-child td {
   background-color: #f0f7fd;
   border-color: #d0e3f0;
 }
-
+/* Test */
+.db-box {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+}
 .required {
   color: #f00;
 }

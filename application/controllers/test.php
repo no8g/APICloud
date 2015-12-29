@@ -13,8 +13,8 @@ class Test extends MY_Controller{
         if (!empty($_REQUEST['num'])){
             $number = $_REQUEST['num'];
         }
-        $data['data'] =  $this->getNumber($number);
-        $this->load->view('admin/test_view',$data);
+        $data =  $this->getNumber($number);
+        echo $data;
     }
     function getNumber($number = null){
         if ($number == null){

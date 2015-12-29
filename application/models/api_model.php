@@ -155,14 +155,28 @@ class Api_Model extends CI_Model {
 
 	function get_latest_update_api_es(){
 
-		$sql = "select a.id as aid, a.number, a.name, a.url_name, a.category_id as category_id, c.name as category_name, a.last_user_id, a.user_name, a.update_time from api a join category c on a.category_id = c.id
+/*		$sql = "select a.id as aid, a.number, a.name, a.url_name, a.category_id as category_id, c.name as category_name, a.last_user_id, a.user_name, a.update_time from api a join category c on a.category_id = c.id
 				where a.update_time > '".date('Y-m-d H:m:s', strtotime('-7day'))."' and a.state = 1 order by update_time DESC";
 		$query = $this->db->query($sql);
 		if ($query == null){
 			return false;
 		}else{
 			return $query->result();
+		}*/
+		$this->db->select('api.id as aid, api.number, api.name, api.url_name, api.category_id as category_id, category.name as category_name,
+		api.last_user_id, api.user_name, api.update_time ');
+		$this->db->from(self::TABLE_NAME);
+		$this->db->join('category', 'category.id = api.category_id');
+		$this->db->where('api.update_time >',date('Y-m-d H:m:s', strtotime('-7day')));
+		$this->db->where('api.state',1);
+		$this->db->order_by('api.update_time', 'DESC');
+		$res = $this->db->get();
+		if ($res == null){
+			return false;
+		}else{
+			return $res->result();
 		}
+
 	}
 	function check_api_id($id){
 		$this->db->where(self::ID, $id);
@@ -175,4 +189,13 @@ class Api_Model extends CI_Model {
 			return false;
 	}
 
+	function check_array($arr){
+		$this->db->where($arr);
+		$this->db->from(self::TABLE_NAME);
+		$res = $this->db->get();
+		if($res->num_rows() > 0)
+			return true;
+		else
+			return false;
+	}
 }

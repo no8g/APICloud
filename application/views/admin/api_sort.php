@@ -32,8 +32,9 @@
                       <thead>
                       <tr>
                           <th class="col-md-2">接口编号</th>
-                          <th class="col-md-9">接口名</th>
-                          <th class="col-md-1">操作</th>
+                          <th class="col-md-4">接口名</th>
+                          <th class="col-md-4">更新时间</th>
+                          <th class="col-md-2">操作</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -43,6 +44,7 @@
                             <tr>
                                 <td><input name="api[]" type="hidden" value="<?php echo $i['id']?>"><?php echo $i['number']?></td>
                                 <td><?php echo $i['name']?></td>
+                                <td><?php echo $i['update_time']?></td>
                                 <td>
                                     <span onclick="up(this)" style="color:red;cursor: pointer" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                                     &nbsp;

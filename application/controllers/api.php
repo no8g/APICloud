@@ -16,6 +16,13 @@ class Api extends MY_Controller{
         $this->load->model('category_model');
     }
 
+    /**
+     * 显示接口添加页面
+     *
+     * @param int $cid
+     * @param string $info
+     * @param string $info_type
+     */
     function show_api_add($cid = 0, $info = '', $info_type = ''){
         if (!$this->session_valid()){
             $info = "您没有权限访问该页面,请登录";
@@ -65,6 +72,13 @@ class Api extends MY_Controller{
 
         $this->load->view(self::API_ADD, $data);
     }
+
+    /**
+     * 显示接口列表页面
+     * @param int $cid
+     * @param string $info
+     * @param string $info_type
+     */
     function show_api_es($cid = 0, $info = '', $info_type = ''){
         if ($cid == 0){
             $cid = $this->input->get('cid', 0);
@@ -103,6 +117,13 @@ class Api extends MY_Controller{
             $this->load->view(self::API_ES, $data);
     	}
 	}
+
+    /**
+     * 显示接口排序页面
+     * @param int $cid
+     * @param string $info
+     * @param string $info_type
+     */
     function show_api_sort($cid =0, $info='', $info_type = ''){
         if (!$this->session_valid()){
             $info = "您没有权限访问该页面,请登录";
@@ -113,7 +134,7 @@ class Api extends MY_Controller{
         if($cid == null){
             $cid = $this->input->get('cid', 0);
         }
-        if (!$this->category_model->check_category_id($cid)){
+        if (!$this->category_model->check_category_id($cid) || $cid == 0){
             $this->show_main('非法访问','danger');
             return;
         }
@@ -143,6 +164,14 @@ class Api extends MY_Controller{
         $this->load->view(self::API_SORT, $data);
 
     }
+
+    /**
+     * 显示接口更新页面
+     * @param int $cid
+     * @param int $aid
+     * @param string $info
+     * @param string $info_type
+     */
     function show_api_update($cid = 0, $aid = 0, $info='',$info_type = ''){
         if (!$this->session_valid()){
             $info = "您没有权限访问该页面,请登录";
@@ -199,6 +228,10 @@ class Api extends MY_Controller{
             $this->load->view(self::API_UPDATE, $data);
         }
     }
+
+    /**
+     *
+     */
     function api_add(){
         if (!$this->session_valid()){
             $info = "您没有权限访问该页面,请登录";
@@ -212,7 +245,6 @@ class Api extends MY_Controller{
             return;
         }
         $entry = array();
-        $entry['number'] = $this->input->post('number');
         $entry['name'] = $this->input->post('name');
         $entry['url_name'] = $this->input->post('url_name');
         $entry['category_id'] = $cid;
@@ -221,10 +253,24 @@ class Api extends MY_Controller{
         $entry['res'] = $this->input->post('res');
         $entry['parameter'] = serialize($this->input->post('p'));
         $entry['remark'] = $this->input->post('remark');
-//        $entry['last_user_id'] = $this->session->userdata('id');//待修改
+
+
+        $entry['last_user_id'] = $this->session->userdata('id');
         $entry['update_time'] = date("Y-m-d H:i:s");
-        $entry['last_user_id'] = 1;//待修改
-        $entry['user_name'] = 'admin';
+        $entry['user_name'] = $this->session->userdata('name');
+
+        $number = $this->input->post('number');
+        if ($number == ''){
+            $number = hash('crc32', $entry['name'].$entry['url_name'].$entry['update_time']);
+        }
+        $entry['number'] = $number;
+        $check['number'] = $number;
+        $check['state'] =1;
+        if ($this->api_model->check_array($check)){
+            $this->show_api_add('接口编号重复', 'danger');
+            return;
+        }
+
         $res = $this->api_model->insert_entry($entry);
         if($res != false) {
             $this->show_api_es($cid, "添加成功！", 'success');
@@ -252,7 +298,6 @@ class Api extends MY_Controller{
             return;
         }
         $entry = array();
-        $entry['number'] = $this->input->post('number');
         $entry['name'] = $this->input->post('name');
         $entry['url_name'] = $this->input->post('url_name');
         $entry['category_id'] = $this->input->post('parent_id');
@@ -262,6 +307,18 @@ class Api extends MY_Controller{
         $entry['parameter'] = serialize($this->input->post('p'));
         $entry['remark'] = $this->input->post('remark');
         $entry['update_time'] = date("Y-m-d H:i:s");
+        $number = $this->input->post('number');
+        if ($number == ''){
+            $number = hash('crc32', $entry['name'].$entry['url_name'].$entry['update_time']);
+        }
+        $entry['number'] = $number;
+        $check['number'] = $number;
+        $check['state'] =1;
+        $check['id !='] = $aid;
+        if ($this->api_model->check_array($check)){
+            $this->show_api_update($cid, $aid, '接口编号重复', 'danger');
+            return;
+        }
         $res = $this->api_model->update_entry($entry, $aid);
         if($res != false) {
             $this->show_api_es($cid, "修改成功！", 'success');
