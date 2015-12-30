@@ -55,11 +55,12 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="col-md-3">参数名</th>
+                        <th class="col-md-2">参数名</th>
                         <th class="col-md-1">必传</th>
                         <th class="col-md-2">缺省值</th>
-                        <th class="col-md-3">描述</th>
-                        <th class="col-md-4">校验规则</th>
+                        <th class="col-md-2">描述</th>
+                        <th class="col-md-3">参数类型</th>
+                        <th class="col-md-3">校验规则</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,6 +74,7 @@
                             <td><?php if($i['parameter']['type'][$j]=='Y'){echo '<span style="color:red">Y<span>';}else{echo '<span style="color:green">N<span>';}?></td>
                             <td><?php echo $i['parameter']['default'][$j]?></td>
                             <td><?php echo $i['parameter']['des'][$j]?></td>
+                            <td><?php echo (isset($i['parameter']['data_type'][$j]))?$i['parameter']['data_type'][$j]:'';?></td>
                             <td><?php echo (isset($i['parameter']['rules'][$j]))?$i['parameter']['rules'][$j]:'';?></td>
                         </tr>
                     <?php } ?>

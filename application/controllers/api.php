@@ -372,7 +372,7 @@ class Api extends MY_Controller{
             $this->show_api_sort($cid, '排序失败', 'danger');
             return;
         }else{
-            $this->show_api_add($cid, '排序成功','success');
+            $this->show_api_es($cid, '排序成功','success');
             return;
         }
     }

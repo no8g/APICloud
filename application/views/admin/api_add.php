@@ -22,64 +22,6 @@
     <link rel="stylesheet" href="lib/magicsuggest-min.css">
     <script src="lib/magicsuggest-min.js"></script>
     <script>
-        function getSel(id){
-            var element = 'select_rule_'+id;
-            var b = document.getElementById(element).value;
-            var $tr = '#tr_'+id;
-            $input = $($tr).find('td').eq(4).find('input');
-            $input[0].value = b;
-        }
-        function getParams(){
-            var dr_url = document.getElementById("url_name").value;
-            var prefix = document.getElementById("prefix").value;
-            $.ajax({
-                url : "index.php?c=test&m=get_params&uri="+dr_url+"&prefix="+prefix,
-                "contentType": "application/x-www-form-urlencoded; charset=utf-8",
-                data: {
-
-                },
-                type: 'get',
-                dataType: 'json',
-                success: function(d){
-                    $('#num').html("");
-                    var $html = "";
-                    if (d != null ){
-                        $('#parameter').html("");
-                        for (i=0;i< d.length;i++){
-                            var $y ="";
-                            var $n ="";
-                            if (d[i].is_require == 'Y'){
-                                $y = "selected";
-                            }else {
-                                $n = "selected";
-                            }
-                            $html = $html +
-                                '<tr>' +
-                                '<td class="form-group has-error" >' +
-                                '<input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required" value="'+d[i].name+'"></td>'+
-                                '<td>' +
-                                '<select class="form-control" name="p[type][]">' +
-                                '<option value="Y" '+$y+'>Y</option> <option value="N" '+$n+'>N</option>' +
-                                '</select >' +
-                                '</td>' +
-                                '<td>' +
-                                '<input type="text" class="form-control" name="p[default][]" placeholder="缺省值"></td>' +
-                                '<td>' +
-                                '<input type="text" class="form-control" name="p[des][]" rows="1" class="form-control" placeholder="描述">' +
-                                '</td>' +
-                                '<td>' +
-                                '<input type="text" class="form-control" name="p[rules][]" rows="1" class="form-control" placeholder="检验规则" value= "'+ d[i].rules +'">' +
-                                '</td>' +
-                                '<td>' +
-                                '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
-                                '</td>' +
-                                '</tr >';
-                        }
-                        $('#parameter').append($html);
-                    }
-                }
-            });
-        }
         function getNum(){
             var api_num = document.getElementById("num").value;
             $.ajax({
@@ -98,7 +40,6 @@
             });
         }
         function add(){
-            var a = $("#parameter").find("tr").length;
             var $html ='<tr id=tr_'+a+'>' +
                 '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" id="p[name][]" placeholder="参数名" required="required"></td>'+
                 '<td>' +
@@ -112,23 +53,26 @@
                 '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
-                '<span style="position:absolute;border:1pt solid #c1c1c1;overflow:hidden;width:440px;height:34px;clip:rect(-1px 440px 440px 420px);"> '+
-//                '<select class="form-control" name="select" id="select_rule" style="overflow:hidden;" onChange="javascript:document.getElementById('+"'p[rules][]'"+').value=document.getElementById('+"'select_rules'"+').options[document.getElementById('+"'select_rules'"+').selectedIndex].value;">'+
-                '<select class="form-control" name="select" id="select_rule_'+a+'" style="overflow:hidden;" onChange="getSel('+a+')">'+
-                '<option value="" >---请选择---</option>'+
+                '<select class="form-control" name="p[data_type][]">'+
+                '<option value="" >请选择</option>'+
                 '<option value="string">string</option> ' +
                 '<option value="int">int</option>' +
                 '<option value="double">double</option>' +
                 '</select> '+
-                '</span> '+
-                '<span style="position:absolute;border-top:1pt solid #c1c1c1;border-left:1pt solid #c1c1c1;border-bottom:1pt solid #c1c1c1;width:420px;height:34px;">'+
-                '<input class="form-control" type="text" name="p[rules][]" id="p[rules][]" value="可选择也可输入的下拉框" style="width:415px;height:30px;border:0pt;">'+
-                '</span> '+
                 '</td>' +
+                '<td>' +
+                '<textarea name="p[rules][]" rows="1" class="form-control" placeholder="校验规则"></textarea>' +
+                '</td>' +
+                '<td>'+
+                '<span onclick="up(this)" style="color:red;cursor: pointer" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>'+
+                '&nbsp'+
+                '<span onclick="down(this)" style="color:green;cursor: pointer" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>'+
+                '</td>'+
                 '<td>' +
                 '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
+            var a = $("#parameter").find("tr").length;
             $('#parameter').append($html);
         }
         function del(obj){
@@ -197,6 +141,28 @@
                     },                    
                 });
             });
+        }
+    </script>
+    <script>
+        //上移
+        function up(obj){
+            var $TR = $(obj).parents('tr');
+            var prevTR = $TR.prev();
+            prevTR.insertAfter($TR);
+            $('tr.info').removeClass('info');
+            $TR.addClass('info');
+            $TR.hide();
+            $TR.show(300);
+        }
+        //下移
+        function down(obj){
+            var $TR = $(obj).parents('tr');
+            var nextTR = $TR.next();
+            nextTR.insertBefore($TR);
+            $('tr.info').removeClass('info');
+            $TR.addClass('info');
+            $TR.hide();
+            $TR.show(300);
         }
     </script>
     <script type="text/javascript">
@@ -286,14 +252,16 @@
               <table class="table" id="param_table" >
                 <thead>
                 <tr>
-                  <th class="col-md-2">参数名</th>
-                  <th class="col-md-1">必传</th>
-                  <th class="col-md-1">缺省值</th>
-                  <th class="col-md-3">描述</th>
-                  <th class="col-md-4">校验规则</th>
-                  <th class="col-md-1">
-                    <button type="button" class="btn btn-success" onclick="add()">新增</button>
-                  </th>
+                    <th class="col-md-2">参数名</th>
+                    <th class="col-md-1">必传</th>
+                    <th class="col-md-1">缺省值</th>
+                    <th class="col-md-2">描述</th>
+                    <th class="col-md-2">参数类型</th>
+                    <th class="col-md-2">校验规则</th>
+                    <th class="col-md-1">排序</th>
+                    <th class="col-md-1">
+                        <button type="button" class="btn btn-success" onclick="add()">新增</button>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="parameter">

@@ -1,4 +1,7 @@
-<div class="dialog">
+<div class="dialog" style="
+    position: relative;
+    margin-top: 135px;"
+>
     <div class="panel panel-default">
         <p class="panel-heading no-collapse" >登录</p>
         <div class="panel-body">

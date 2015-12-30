@@ -92,14 +92,16 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th class="col-md-2">参数名</th>
-                  <th class="col-md-1">必传</th>
-                  <th class="col-md-1">缺省值</th>
-                  <th class="col-md-3">描述</th>
-                  <th class="col-md-4">校验规则</th>
-                  <th class="col-md-1">
+                    <th class="col-md-2">参数名</th>
+                    <th class="col-md-1">必传</th>
+                    <th class="col-md-1">缺省值</th>
+                    <th class="col-md-2">描述</th>
+                    <th class="col-md-2">参数类型</th>
+                    <th class="col-md-2">校验规则</th>
+                    <th class="col-md-1">排序</th>
+                    <th class="col-md-1">
                     <button type="button" class="btn btn-success" onclick="add()">新增</button>
-                  </th>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="parameter">
@@ -125,17 +127,24 @@
                         <td><input type="text" class="form-control" name="p[default][]" placeholder="缺省值" value="<?php echo $parameter['default'][$j]?>"></td>
                         <td><textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"><?php echo $parameter['des'][$j]?></textarea></td>
                         <td>
-                            <span style="position:absolute;border:1pt solid #c1c1c1;overflow:hidden;width:440px;height:34px;clip:rect(-1px 440px 440px 420px);">
-                            <select class="form-control" name="select" id="select_rule_<?=$j?>" style="overflow:hidden;" onChange="getSel(<?=$j?>)">
-                                <option value="" >---请选择---</option>
-                                <option value="string">string</option>
-                                <option value="int">int</option>
-                                <option value="double">double</option>
+                            <select class="form-control" name="p[data_type][]">
+                                <?php
+                                if(isset($parameter['data_type'][$j])){
+                                    ?>
+                                    <option value="" <?=($parameter['data_type'][$j] == '')?'selected="selected"':''?>>请选择</option>
+                                    <option value="string" <?=($parameter['data_type'][$j] == 'string')?'selected="selected"':''?>>string</option>
+                                    <option value="int" <?=($parameter['data_type'][$j] == 'int')?'selected="selected"':''?>>int</option>
+                                    <option value="double" <?=($parameter['data_type'][$j] == 'double')?'selected="selected"':''?>>double</option>
+                                    <?php
+                                }
+                                ?>
                             </select>
-                            </span>
-                            <span style="position:absolute;border-top:1pt solid #c1c1c1;border-left:1pt solid #c1c1c1;border-bottom:1pt solid #c1c1c1;width:420px;height:34px;">
-                            <input class="form-control" type="text" name="p[rules][]" id="p[rules][]" value="<?php echo (isset($parameter['rules'][$j]))?$parameter['rules'][$j]:'';?>" style="width:415px;height:30px;border:0pt;">
-                            </span>
+                        </td>
+                        <td><textarea name="p[rules][]" rows="1" class="form-control" placeholder="校验规则"><?php echo (isset($parameter['rules'][$j]))?$parameter['rules'][$j]:'';?></textarea>
+                        </td>
+                        <td>
+                            <span onclick="up(this)" style="color:red;cursor: pointer" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            <span onclick="down(this)" style="color:green;cursor: pointer" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                         </td>
                         <td><button type="button" class="btn btn-danger" onclick="del(this)">删除</button></td>
                     </tr>
@@ -160,7 +169,7 @@
   </div>
 
     <script>
-        function getParams(){
+        /*function getParams(){
             var dr_url = document.getElementById("url_name").value;
             var prefix = document.getElementById("prefix").value;
             $.ajax({
@@ -212,7 +221,7 @@
                 }
             });
 
-        }
+        }*/
         function getNum(){
             var api_num = document.getElementById("num").value;
             $.ajax({
@@ -233,9 +242,8 @@
 
         }
         function add(){
-            console.log(document.getElementById('url'));
-            var $html ='<tr>' +
-                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" placeholder="参数名" required="required"></td>'+
+            var $html ='<tr id=tr_'+a+'>' +
+                '<td class="form-group has-error" ><input type="text" class="form-control has-error" name="p[name][]" id="p[name][]" placeholder="参数名" required="required"></td>'+
                 '<td>' +
                 '<select class="form-control" name="p[type][]">' +
                 '<option value="Y">Y</option> <option value="N">N</option>' +
@@ -247,27 +255,59 @@
                 '<textarea name="p[des][]" rows="1" class="form-control" placeholder="描述"></textarea>' +
                 '</td>' +
                 '<td>' +
-                '<select class="form-control" name="p[rules][]">' +
+                '<select class="form-control" name="p[data_type][]">'+
+                '<option value="" >请选择</option>'+
                 '<option value="string">string</option> ' +
                 '<option value="int">int</option>' +
                 '<option value="double">double</option>' +
-                '</select >' +
+                '</select> '+
                 '</td>' +
+                '<td>' +
+                '<textarea name="p[rules][]" rows="1" class="form-control" placeholder="校验规则"></textarea>' +
+                '</td>' +
+                '<td>'+
+                '<span onclick="up(this)" style="color:red;cursor: pointer" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>'+
+                '&nbsp'+
+                '<span onclick="down(this)" style="color:green;cursor: pointer" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>'+
+                '</td>'+
                 '<td>' +
                 '<button type="button" class="btn btn-danger" onclick="del(this)">删除</button>' +
                 '</td>' +
                 '</tr >';
+            var a = $("#parameter").find("tr").length;
             $('#parameter').append($html);
         }
         function del(obj){
             $(obj).parents('tr').remove();
         }
-        function getSel(id){
+        /*function getSel(id){
             var element = 'select_rule_'+id;
             var b = document.getElementById(element).value;
             var $tr = '#tr_'+id;
             $input = $($tr).find('td').eq(4).find('input');
             $input[0].value = b;
+        }*/
+    </script>
+    <script>
+        //上移
+        function up(obj){
+            var $TR = $(obj).parents('tr');
+            var prevTR = $TR.prev();
+            prevTR.insertAfter($TR);
+            $('tr.info').removeClass('info');
+            $TR.addClass('info');
+            $TR.hide();
+            $TR.show(300);
+        }
+        //下移
+        function down(obj){
+            var $TR = $(obj).parents('tr');
+            var nextTR = $TR.next();
+            nextTR.insertBefore($TR);
+            $('tr.info').removeClass('info');
+            $TR.addClass('info');
+            $TR.hide();
+            $TR.show(300);
         }
     </script>
 
