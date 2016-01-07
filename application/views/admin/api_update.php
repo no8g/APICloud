@@ -136,6 +136,13 @@
                                     <option value="int" <?=($parameter['data_type'][$j] == 'int')?'selected="selected"':''?>>int</option>
                                     <option value="double" <?=($parameter['data_type'][$j] == 'double')?'selected="selected"':''?>>double</option>
                                     <?php
+                                }else{
+                                    ?>
+                                        <option value="">请选择</option>
+                                        <option value="string">string</option>
+                                        <option value="int">int</option>
+                                        <option value="double">double</option>
+                                <?php
                                 }
                                 ?>
                             </select>
